@@ -9,7 +9,7 @@
 #
 # With this setup, any client (but owserver) uses owserver on the
 # local machine...
-! server: server = localhost:4303
+! server: server = 127.0.0.1:4303
 #
 # ...and owserver uses the real hardware, by default fake devices
 # This part must be changed on real installation
@@ -19,7 +19,7 @@
 #server: usb = all
 #
 # Serial port: DS9097
-server: device = /dev/ttyUSB0
+server: device = /dev/onewire
 #
 # owserver tcp address
 #server: server = 192.168.10.1:3131
@@ -34,7 +34,7 @@ server: device = /dev/ttyUSB0
 #
 ####################### OWHTTPD #########################
 
-http: port = 1234
+http: port = 2121
 
 ####################### OWFTPD ##########################
 
@@ -42,5 +42,5 @@ ftp: port = 2120
 
 ####################### OWSERVER ########################
 
-server: port = localhost:4303
+server: port = 127.0.0.1:4303
 
