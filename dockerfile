@@ -27,7 +27,7 @@ RUN sed -i "s/\${OW_DEVICE}/${OW_DEVICE}/g" /start.sh
 RUN ["chmod", "+x", "/start.sh"]
 
 #get conf-template
-COPY ./owfs.conf /etc/owfs.conf
+COPY ./owfs.template /etc/owfs.conf
 #fill template with default values from above step by step
 RUN sed -i "s/\${WEB_PORT}/${WEB_PORT}/g" /etc/owfs.conf
 RUN sed -i "s/\${OWFS_PORT}/${OWFS_PORT}/g" /etc/owfs.conf
