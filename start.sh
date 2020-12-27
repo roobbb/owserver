@@ -43,16 +43,19 @@ function prepare_config {
 if [ "$CUSTOM_CONFIG_ENABLED" = "1" ]
 then
     echo "starting services with custom config from $CUSTOM_CONFIG_FILE"
-    exec /usr/bin/owserver -c "$CUSTOM_CONFIG_FILE"
-    exec /usr/bin/owhttpd -c "$CUSTOM_CONFIG_FILE"
-    exec /usr/bin/owftpd -c "$CUSTOM_CONFIG_FILE"
+    mv /etc/owfs.conf /etc/owfs.conf.old
+    cp "$CUSTOM_CONFIG_FILE" /etc/owfs.conf
+   # exec /usr/bin/owserver -c "$CUSTOM_CONFIG_FILE"
+   # exec /usr/bin/owhttpd -c "$CUSTOM_CONFIG_FILE"
+   # exec /usr/bin/owftpd -c "$CUSTOM_CONFIG_FILE"
 else
     prepare_config
     echo "starting services with prepared standard config from /etc/owfs.conf"
+fi
     service owserver start
     service owhttpd start
     service owftpd start
-fi
+
 
 # Spin until we receive a SIGTERM (e.g. from `docker stop`)
 echo "all work done, go sleeping..."
