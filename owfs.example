@@ -19,13 +19,13 @@
 #server: usb = all
 #
 # Serial port: DS9097
-server: device = /dev/onewire
+#server: device = /dev/ttyS0
 #
 # owserver tcp address
 #server: server = 192.168.10.1:3131
 #
 # random simulated device
-#server: FAKE = DS18S20,DS2405
+server: FAKE = DS18S20,DS2405
 #
 ######################### OWFS ##########################
 #
