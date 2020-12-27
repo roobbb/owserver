@@ -52,9 +52,38 @@ else
     prepare_config
     echo "starting services with prepared standard config from /etc/owfs.conf"
 fi
-    service owserver start
-    service owhttpd start
-    service owftpd start
+
+
+    #service owserver start
+    #service owhttpd start
+    #service owftpd start
+
+SERVICES=(owserver owhttpd owftpd)
+#SERVICES_LVL=3
+
+if [ -z "$SERVICES_LVL" ]
+then 
+ echo "no Service Level set, apply default 3"
+ SERVICES_LVL=3
+else
+  if (( $SERVICES_LVL >= 1 )) && (( $SERVICES_LVL <= 3 ))
+  then
+   echo "valid Service Level set to $SERVICES_LVL"
+  else
+   echo "no valid Service Level set, applying default 3"
+   SERVICES_LVL=3
+ fi
+fi
+
+
+echo "looping array items: ${#SERVICES[*]}"
+for index in ${!SERVICES[*]}
+do
+  if (($index +1 <= $SERVICES_LVL))
+  then
+   service "${SERVICES[$index]}" start
+  fi
+done
 
 
 # Spin until we receive a SIGTERM (e.g. from `docker stop`)
