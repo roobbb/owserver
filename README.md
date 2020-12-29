@@ -96,7 +96,7 @@ If you like to set your own owfs.conf, then pass the variable CUSTOM_CONFIG_ENAB
 `docker exec -it owserver bash`
 
 ### stopping the container
-`docher stop owserver`
+`docker stop owserver`
 
 ### example definition in FHEM
 
