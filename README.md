@@ -94,7 +94,7 @@ If you like to set your own owfs.conf, then pass the variable CUSTOM_CONFIG_ENAB
 + you should reach the Web-Interface via http://yourHost:2121/ even if you dont have a real 1-wire device connected/ mapped
 
 ### example enter the running container
-`docker exec -it owserver bash`
+`docker exec -it owserver /bin/bash`
 
 ### stopping the container
 `docker stop owserver`
