@@ -147,3 +147,4 @@ example for this testing here:
 + you should see lots of readings right after entering the define-command - if not, please check server adress+port as defined in owfs.example and start-command of owserver-container
 
 + of course you can start owserver and FHEM with the option "--net=host" and both of them can be member of further networks as long as both share at least one network
++ if you use "--net=host" you have to set owserver to 127.0.0.1:4304 again - just like you should, when FHEM would run as a local service
