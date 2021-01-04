@@ -9,7 +9,9 @@
 #
 # With this setup, any client (but owserver) uses owserver on the
 # local machine...
-! server: server = 127.0.0.1:4303
+# if a local service needs access to this container use 127.0.0.1
+# if another container needs access use the name or network-alias e.g. owserver:4304 
+! server: server = 127.0.0.1:4304
 #
 # ...and owserver uses the real hardware, by default fake devices
 # This part must be changed on real installation
@@ -42,5 +44,6 @@ ftp: port = 2120
 
 ####################### OWSERVER ########################
 
-server: port = 127.0.0.1:4303
-
+# if a local service needs access to this container use 127.0.0.1
+# if another container needs access use the name or network-alias e.g. owserver:4304 
+server: port = 127.0.0.1:4304
