@@ -1,20 +1,21 @@
 # One-Wire Docker-Container
 
-+ **Home of owserver etc. is https://owfs.org**
++ **Home of owfs (owserver etc.) is https://owfs.org**
 + **This container is based on debian-slim:stable and installs owserver, owhttpd and owftpd via apt-get - here are no changes on their sourcecode**
-+ **intended to use on a Raspberry-PI together with the SmartHome Server FHEM (may even work in other SmartHome scenarios, but untested)**
++ **intended to use together with the SmartHome Server FHEM on a Raspberry-PI or any other machine (may even work in other SmartHome scenarios, but not tested)**
 + **Dev-version is always for testing purposes only.**
 + **Latest will always come from main-branch.**
-+ **you can find source files on github [ https://github.com/roobbb/owserver ] to build the container on your own**
++ **you can find source files on github [ https://github.com/roobbb/owserver ] to provide an inside into the deep or to build the container on your own**
 
 ### Variables declared inside docker-file for setting defaults:
 
 |VAR               |VALUE   |hint                                                                                     |
 |------------------|:----------:|--------------------------------------------------------------------------|
 |WEB_PORT   |2121     |sets value inside /etc/owfs.conf for http port             | 
-|OWFS_PORT|4303      |sets value  inside /etc/owfs.conf for owserver's port|
+|OWFS_PORT|4304      |sets value  inside /etc/owfs.conf for owserver's port|
 |FTP_PORT    |2120      |sets value inside /etc/owfs.conf for ftp port                |
 |OW_DEVICE |onewire|sets value inside /etc/owfs.conf for mapped device  |
+|OW_SERVER|127.0.0.1|sets value inside /etc/owfs.conf for owserver's adress<br>use 127.0.0.1 when a locally installed service should have access<br>set a name or alias when another container should get access see examples for more details|
 
 Those variables can be overwritten when starting the container. The new value from cli will be put inside the containers /etc/owfs.conf again and substitute the defaults.
 
@@ -42,8 +43,8 @@ set udev-rule for a Denkovi-Device on host \
        --device=/dev/onewire \
     roobbb/owserver
 
-+ standard config sets owserver listening on localhost:4303 and owhttpd on 2121
-+ if another process on your host should connect to owserver, the unix socket localhost:4303 doesn't work with docker - therefore owserver is listening on 127.0.0.1:4303 by default
++ standard config binds owserver on localhost:4304 and owhttpd on port 2121
++ if another process on your host should connect to owserver, the unix socket localhost:4304 doesn't work with docker - therefore owserver is set on 127.0.0.1:4304 by default
 
 ### run example: start owserver only with default values 
 
@@ -71,7 +72,7 @@ If your host's device is other than "onewire", then you always have to set "OW_D
        -e FTP_PORT=21 \
     roobbb/owserver
 
-+ this example keeps OWFS_PORT to it's default (4303) but changes the rest
++ this example keeps OWFS_PORT to it's default (4304) but changes the rest
 + you can set one, all values or omit some
 
 If you like to set your own owfs.conf, then pass the variable CUSTOM_CONFIG_ENABLED=1 and map your config-path into the container's file system und finally tell the main script where you put your own config file.
@@ -93,15 +94,57 @@ If you like to set your own owfs.conf, then pass the variable CUSTOM_CONFIG_ENAB
 + you should reach the Web-Interface via http://yourHost:2121/ even if you dont have a real 1-wire device connected/ mapped
 
 ### example enter the running container
-`docker exec -it owserver bash`
+`docker exec -it owserver /bin/bash`
 
 ### stopping the container
 `docker stop owserver`
 
-### example definition in FHEM
+### example definition in FHEM (when FHEM is installed locally and running on your host directly) 
 
 `define myOWServer OWServer 127.0.0.1:4304` \
 `attr myOWServer room OneWire`
 
 + please check WIKI [ https://wiki.fhem.de/wiki/OWServer_%26_OWDevice ] or commandref [ https://fhem.de/commandref.html#OWServer ] for more details  
-+ FHEM can even run inside a docker container - the neccessary network config especially to get the docker containers to work together is not covered/ tested yet
++ FHEM can even run inside a docker container - check next example  
+
+### example when FHEM even runs in a container
+
+add a new user-defined-network
+    docker network create mynet
+
++ edit owfs.example and change server ip-address from 127.0.0.1 to the name of the docker container which we want to start (owserver) or its network-alias (myserver), even the server's port should be the same as what we want to map
++ start owserver-container with new network and alias and map ports as required
+
+      docker run -d \
+        --rm \
+        --name=owserver \
+        --net=mynet \
+        --network-alias myserver \
+        -p 2121:2121 \
+        -v /etc/localtime:/etc/localtime:ro \
+        -v /mypath/to_my_config:/root/.local/share \
+        --device=/dev/ttyUSB0 \
+        -e CUSTOM_CONFIG_ENABLED=1 \
+        -e CUSTOM_CONFIG_FILE=/root/.local/share/owfs.example \
+      roobbb/owserver:dev
+
++ check if the web-interface is reachable via http://yourHost:2121/
+
++ start the official FHEM container as it matches your requirements (for more details please check Readme on Github https://github.com/fhem/fhem-docker or FHEM board https://forum.fhem.de/index.php?topic=89745.0)
++ please make sure FHEM is member of at least one network where owserver is connected to (mynet in this example)
+
+example for this testing here:
+
+      docker run -d --rm --net=mynet -p 8083:8083 --name fhem  fhem/fhem
+
++ please check if you can reach FHEM's web-if via http://yourHost:8083/fhem
++ define a device for owserver in FHEM - let's assume you wrote "myserver:4304" into your owfs.example as owserver's adress 
+
+`define myLocalOWServer OWServer myserver:4304` \
+`attr myLocalOWServer room OWDevice` \
+`attr myLocalOWServer nonblocking 1`
+
++ you should see lots of readings right after entering the define-command - if not, please check server adress+port as defined in owfs.example and start-command of owserver-container
+
++ of course you can start owserver and FHEM with the option "--net=host" and both of them can be member of further networks as long as both share at least one network
++ if you use "--net=host" you have to set owserver to 127.0.0.1:4304 again - just like you should, when FHEM would run as a local service
