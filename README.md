@@ -44,7 +44,7 @@ set udev-rule for a Denkovi-Device on host \
     roobbb/owserver
 
 + standard config binds owserver on localhost:4304 and owhttpd on port 2121
-+ if another process on your host should connect to owserver, the unix socket localhost:4304 doesn't work with docker - therefore owserver is set on 127.0.0.1:4303 by default
++ if another process on your host should connect to owserver, the unix socket localhost:4304 doesn't work with docker - therefore owserver is set on 127.0.0.1:4304 by default
 
 ### run example: start owserver only with default values 
 
