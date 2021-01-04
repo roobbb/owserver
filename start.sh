@@ -38,6 +38,16 @@ function prepare_config {
       echo "\$OW_DEVICE set - overriding default with new value"
       sed -i "s/${OW_DEVICE}/${OW_DEVICE_NEW}/g" /etc/owfs.conf
   fi
+  #######
+  if [ -z "$OW_SERVER" ]
+  then
+      echo "\$OW_SERVER not set - keeping default value ..."
+  else
+      OW_DEVICE_NEW="$OW_SERVER"
+      echo "\$OW_SERVER set - overriding default with new value"
+      sed -i "s/${OW_SERVER}/${OW_SERVER_NEW}/g" /etc/owfs.conf
+  fi
+
 }
 
 if [ "$CUSTOM_CONFIG_ENABLED" = "1" ]
@@ -45,18 +55,10 @@ then
     echo "starting services with custom config from $CUSTOM_CONFIG_FILE"
     mv /etc/owfs.conf /etc/owfs.conf.old
     cp "$CUSTOM_CONFIG_FILE" /etc/owfs.conf
-   # exec /usr/bin/owserver -c "$CUSTOM_CONFIG_FILE"
-   # exec /usr/bin/owhttpd -c "$CUSTOM_CONFIG_FILE"
-   # exec /usr/bin/owftpd -c "$CUSTOM_CONFIG_FILE"
 else
     prepare_config
     echo "starting services with prepared standard config from /etc/owfs.conf"
 fi
-
-
-    #service owserver start
-    #service owhttpd start
-    #service owftpd start
 
 SERVICES=(owserver owhttpd owftpd)
 #SERVICES_LVL=3
