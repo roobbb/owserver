@@ -9,7 +9,7 @@
 #
 # With this setup, any client (but owserver) uses owserver on the
 # local machine...
-! server: server = 127.0.0.1:${OWFS_PORT}
+! server: server = ${OW_SERVER}:${OWFS_PORT}
 #
 # ...and owserver uses the real hardware, by default fake devices
 # This part must be changed on real installation
@@ -42,5 +42,5 @@ ftp: port = ${FTP_PORT}
 
 ####################### OWSERVER ########################
 
-server: port = 127.0.0.1:${OWFS_PORT}
+server: port = ${OW_SERVER}:${OWFS_PORT}
 
