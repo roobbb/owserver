@@ -2,10 +2,11 @@
 
 + **Home of owfs (owserver etc.) is https://owfs.org**
 + **This container is based on debian-slim:stable and installs owserver, owhttpd and owftpd via apt-get - here are no changes on their sourcecode**
-+ **intended to use together with the SmartHome Server FHEM on a Raspberry-PI or any other machine (may even work in other SmartHome scenarios, but not tested)**
++ **intended to use together with SmartHome systems like FHEM, OpenHAB, Home Assistant, ioBroker or HomeBridge.io on a Raspberry-PI or any other machine (may even work in other SmartHome scenarios, but not all can be tested)**
++ **please find more configuring details and examples in this wiki https://github.com/roobbb/owserver/wiki**
 + **Dev-version is always for testing purposes only.**
 + **Latest will always come from main-branch.**
-+ **you can find source files on github [ https://github.com/roobbb/owserver ] to provide an inside into the deep or to build the container on your own**
++ **you can find the docker container under https://hub.docker.com/r/roobbb/owserver for some different architectures**
 
 ### Variables declared inside docker-file for setting defaults:
 
