@@ -1,12 +1,17 @@
 # One-Wire Docker-Container
 
 + **Home of owfs (owserver etc.) is https://owfs.org**
-+ **This container is based on debian-slim:stable and installs owserver, owhttpd and owftpd via apt-get - here are no changes on their sourcecode**
-+ **intended to use together with SmartHome systems like FHEM, OpenHAB, Home Assistant, ioBroker or HomeBridge.io on a Raspberry-PI or any other machine (may even work in other SmartHome scenarios, but not all can be tested)**
-+ **please find more configuring details and examples in this wiki https://github.com/roobbb/owserver/wiki**
-+ **Dev-version is always for testing purposes only.**
-+ **Latest will always come from main-branch.**
-+ **you can find the docker container under https://hub.docker.com/r/roobbb/owserver for some different architectures**
++ **This container is based on debian-slim:stable and installs owserver, owhttpd and owftpd via apt-get as it comes from the official debian repositories**
++ **intended to use together with SmartHome systems as follows on a Raspberry-PI or any other machine (may even work in other SmartHome scenarios, but not all can be tested)**
+  - **FHEM** (https://github.com/roobbb/owserver/wiki/3.1.-examples-for-FHEM)
+  - **OpenHAB** (https://github.com/roobbb/owserver/wiki/3.2.-examples-for-OpenHAB)
+  - **Home Assistant** (https://github.com/roobbb/owserver/wiki/3.3.-example-for-Home-Assistant)
+  - **ioBroker** (https://github.com/roobbb/owserver/wiki/3.4.-example-for-ioBroker)
+  - **HomeBridge.io** (https://github.com/roobbb/owserver/wiki/3.5.-example-for-HomeBridge)
+  - **Node Red** (https://github.com/roobbb/owserver/wiki/3.6.-example-for-NodeRed)
++ **Please find more information inside the Github Wiki https://github.com/roobbb/owserver/wiki**
++ **Latest will always come from main-branch; Dev-version is always for testing purposes only**
++ **you can find source files on Github https://github.com/roobbb/owserver to provide an inside into the deep or to build the container on your own**
 
 ### Variables declared inside docker-file for setting defaults:
 
