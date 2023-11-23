@@ -1,3 +1,5 @@
+# this repo is now read-only and archived
+
 # One-Wire Docker-Container
 
 + **Home of owfs (owserver etc.) is https://owfs.org**
